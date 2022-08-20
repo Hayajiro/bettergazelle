@@ -17,7 +17,7 @@ Directory.CreateDirectory(appdata);
 Directory.SetCurrentDirectory(appdata);
 
 string[] ggnKeys = File
-    .ReadAllText("ggn.apitoken")
+    .ReadAllText("ggn.tokens")
     .Split(Environment.NewLine);
 
 GazelleClient client = new(ggnKeys[0]);
