@@ -12,7 +12,9 @@ else
     Environment.Exit(-1);
 }
 
-Directory.SetCurrentDirectory(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+string appdata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "bettergazelle");
+Directory.CreateDirectory(appdata);
+Directory.SetCurrentDirectory(appdata);
 
 string[] ggnKeys = File
     .ReadAllText("ggn.apitoken")
