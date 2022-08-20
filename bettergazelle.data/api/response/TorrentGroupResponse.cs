@@ -1,15 +1,14 @@
 ﻿using bettergazelle.data.api.data;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace bettergazelle.data.api.response
+namespace bettergazelle.data.api.response;
+
+[Serializable]
+public class TorrentGroupResponse
 {
-    [Serializable]
-    public class TorrentGroupResponse
-    {
-        [JsonProperty("status")]
-        public string Status { get; set; }
+    [JsonPropertyName("status")]
+    public string Status { get; set; }
 
-        [JsonProperty("response")]
-        public TorrentGroupResponseData Response { get; set; }
-    }
+    [JsonPropertyName("response")]
+    public TorrentGroupResponseData Response { get; set; }
 }

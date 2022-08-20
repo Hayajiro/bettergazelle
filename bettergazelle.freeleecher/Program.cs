@@ -17,13 +17,14 @@ Directory.SetCurrentDirectory(Environment.GetFolderPath(Environment.SpecialFolde
 string[] ggnKeys = File
     .ReadAllText("ggn.apitoken")
     .Split(Environment.NewLine);
-GazelleClient client = new GazelleClient(ggnKeys[0]);
+
+GazelleClient client = new(ggnKeys[0]);
 string authKey = ggnKeys[1];
 string torrentPassword = ggnKeys[2];
 
-LogScraper scraper = new LogScraper(client);
+LogScraper scraper = new(client);
 int scrapeDelay = 5 * 60 * 1000;
-FreeleechDownloader downloader = new FreeleechDownloader(client, authKey, torrentPassword, watchFolder);
+FreeleechDownloader downloader = new(client, authKey, torrentPassword, watchFolder);
 
 Console.WriteLine("Hello, Gazellians!");
 

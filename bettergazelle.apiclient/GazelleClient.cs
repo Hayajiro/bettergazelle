@@ -1,66 +1,65 @@
 ﻿using bettergazelle.data.api.response;
-using Newtonsoft.Json;
+using System.Text.Json;
 
-namespace bettergazelle.apiclient
+namespace bettergazelle.apiclient;
+
+public class GazelleClient
 {
+    private readonly HttpClient _httpClient;
 
-    public class GazelleClient
+    public GazelleClient(string apiToken)
     {
-        private readonly HttpClient _httpClient;
-
-        public GazelleClient(string apiToken)
+        _httpClient = new HttpClient
         {
-            _httpClient = new HttpClient
+            BaseAddress = new Uri("https://gazellegames.net"),
+            DefaultRequestHeaders = 
             {
-                BaseAddress = new Uri("https://gazellegames.net")
-            };
+                { "X-API-Key", apiToken }
+            }
+        };
+    }
 
-            _httpClient.DefaultRequestHeaders.Add("X-API-Key", apiToken);
-        }
+    public async Task<SiteLogResponse?> GetSiteLog(int page = 1, int limit = 25, string? search = default)
+    {
+        string responseData = await _httpClient.GetStringAsync("/api.php?request=sitelog" +
+                                                               $"&page={page}" +
+                                                               $"&limit={limit}" +
+                                                               $"{(search == default ? "" : $"&search={search}")}"
+        );
 
-        public async Task<SiteLogResponse?> GetSiteLog(int page = 1, int limit = 25, string? search = default)
-        {
-            string responseData = await _httpClient.GetStringAsync("/api.php?request=sitelog" +
-                                                                   $"&page={page}" +
-                                                                   $"&limit={limit}" +
-                                                                   $"{(search == default ? "" : $"&search={search}")}"
-            );
+        SiteLogResponse? response = JsonSerializer.Deserialize<SiteLogResponse>(responseData);
 
-            SiteLogResponse? response = JsonConvert.DeserializeObject<SiteLogResponse>(responseData);
+        return response;
+    }
 
-            return response;
-        }
+    public async Task<CollectionResponse?> GetCollection(int id)
+    {
+        string responseData = await _httpClient.GetStringAsync("/api.php?request=collection" +
+                                                               $"&id={id}"
+        );
 
-        public async Task<CollectionResponse?> GetCollection(int id)
-        {
-            string responseData = await _httpClient.GetStringAsync("/api.php?request=collection" +
-                                                                   $"&id={id}"
-            );
+        CollectionResponse? response = JsonSerializer.Deserialize<CollectionResponse>(responseData);
 
-            CollectionResponse? response = JsonConvert.DeserializeObject<CollectionResponse>(responseData);
+        return response;
+    }
 
-            return response;
-        }
+    public async Task<TorrentGroupResponse?> GetTorrentGroup(int id)
+    {
+        string responseData = await _httpClient.GetStringAsync("/api.php?request=torrentgroup" +
+                                                               $"&id={id}"
+        );
 
-        public async Task<TorrentGroupResponse?> GetTorrentGroup(int id)
-        {
-            string responseData = await _httpClient.GetStringAsync("/api.php?request=torrentgroup" +
-                                                                   $"&id={id}"
-            );
-            var settings = new JsonSerializerSettings();
-            settings.MissingMemberHandling = MissingMemberHandling.Ignore;
-            TorrentGroupResponse? response = JsonConvert.DeserializeObject<TorrentGroupResponse>(responseData, settings);
+        TorrentGroupResponse? response = JsonSerializer.Deserialize<TorrentGroupResponse>(responseData);
 
-            return response;
-        }
+        return response;
+    }
 
-        public async Task<byte[]> GetTorrent(int id, string authKey, string torrentPassword)
-        {
-            return await _httpClient.GetByteArrayAsync("/torrents.php?action=download" +
-                                                                   $"&id={id}" +
-                                                                   $"&authkey={authKey}" +
-                                                                   $"&torrent_pass={torrentPassword}"
-            );
-        }
+    public async Task<byte[]> GetTorrent(int id, string authKey, string torrentPassword)
+    {
+        return await _httpClient.GetByteArrayAsync("/torrents.php?action=download" +
+                                                               $"&id={id}" +
+                                                               $"&authkey={authKey}" +
+                                                               $"&torrent_pass={torrentPassword}"
+        );
     }
 }

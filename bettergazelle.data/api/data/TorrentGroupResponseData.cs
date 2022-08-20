@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace bettergazelle.data.api.data
 {
     [Serializable]
     public class TorrentGroupResponseData
     {
-        [JsonProperty("group")]
+        [JsonPropertyName("group")]
         public TorrentGroupData TorrentGroupData { get; set; }
         
-        [JsonProperty("torrents")]
+        [JsonPropertyName("torrents")]
         public List<TorrentData> Torrents { get; set; }
     }
 }
