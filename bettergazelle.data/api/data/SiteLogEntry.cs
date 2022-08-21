@@ -1,19 +1,17 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json.Serialization;
 
 namespace bettergazelle.data.api.data
 {
     [Serializable]
     public class SiteLogEntry
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id"), JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
         public int Id { get; set; }
 
-        [JsonProperty("time")]
-        [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime Timestamp { get; set; }
+        [JsonPropertyName("time"), JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTimeOffset Timestamp { get; set; }
 
-        [JsonProperty("message")]
+        [JsonPropertyName("message")]
         public string Message { get; set; }
     }
 }

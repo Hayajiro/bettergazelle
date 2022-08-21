@@ -1,14 +1,14 @@
 using bettergazelle.data.api.data;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace bettergazelle.data.api.response{
-    [Serializable]
-    public class SiteLogResponse : BaseResponse
-    {
-        [JsonProperty("status")]
-        public string Status { get; set; }
+namespace bettergazelle.data.api.response;
 
-        [JsonProperty("response")]
-        public List<SiteLogEntry> Response { get; set; }
-    }
+[Serializable]
+public class SiteLogResponse : BaseResponse
+{
+    [JsonPropertyName("status")]
+    public string Status { get; set; }
+
+    [JsonPropertyName("response")]
+    public List<SiteLogEntry> Response { get; set; }
 }

@@ -1,20 +1,20 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace bettergazelle.data.api.data
 {
     [Serializable]
     public class TorrentData
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
-        [JsonProperty("releaseTitle")]
+        [JsonPropertyName("releaseTitle")]
         public string ReleaseTitle { get; set; }
         
-        [JsonProperty("freeTorrent")]
+        [JsonPropertyName("freeTorrent")]
         public bool FreeTorrent { get; set; }
     }
 }
