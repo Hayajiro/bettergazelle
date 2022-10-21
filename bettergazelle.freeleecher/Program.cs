@@ -1,24 +1,23 @@
 ﻿using bettergazelle.apiclient;
 using bettergazelle.freeleecher;
 
-string watchFolder = string.Empty;
-if (args.Length == 1)
+if (args.Length < 1)
 {
-    watchFolder = args[0];
-}
-else
-{
-    Console.WriteLine("No watchFolder specified!");
+    Console.WriteLine("No watch folder specified!");
     Environment.Exit(-1);
 }
 
-string appdata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "bettergazelle");
-Directory.CreateDirectory(appdata);
-Directory.SetCurrentDirectory(appdata);
+string watchFolder = args[0];
+string tokenFile   = args.Length >= 2
+    ? args[1] 
+    : "ggn.tokens";
 
-string[] ggnKeys = File
-    .ReadAllText("ggn.tokens")
-    .Split(Environment.NewLine);
+string appData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "bettergazelle");
+Directory.CreateDirectory(appData);
+Directory.SetCurrentDirectory(appData);
+
+string[] ggnKeys = File.ReadAllText(tokenFile)
+                       .Split(Environment.NewLine);
 
 GazelleClient client = new(ggnKeys[0]);
 string authKey = ggnKeys[1];
