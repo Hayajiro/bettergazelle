@@ -9,7 +9,7 @@ if (args.Length < 1)
 
 string watchFolder = args[0];
 string tokenFile   = args.Length >= 2
-    ? args[1] 
+    ? args[1]
     : "ggn.tokens";
 
 string appData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "bettergazelle");
